@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # NextHireApp
 
 ## About this solution
@@ -64,3 +65,7 @@ You can see the following resources to learn more about your solution and the AB
 
 * [Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-01?UI=Blazor&DB=EF)
 * [Application Startup Template Structure](https://abp.io/docs/latest/solution-templates/layered-web-application)
+=======
+# NextHire
+This is my standard project direction ABP framework
+>>>>>>> a7bd8064cff7f490ec60f19670b70d3575362f90
