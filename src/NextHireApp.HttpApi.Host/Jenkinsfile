@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     dir('src/NextHireApp.HttpApi.Host') {
-                        bat 'dotnet restore'
+                        sh 'dotnet restore'
                     }
                 }
             }
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     dir('src/NextHireApp.HttpApi.Host') {
-                        bat 'dotnet build --no-restore -c Release'
+                        sh 'dotnet build --no-restore -c Release'
                     }
                 }
             }
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     dir('src') {
-                        bat 'dotnet test --no-build --logger "trx;LogFileName=test_results.trx"'
+                        sh 'dotnet test --no-build --logger "trx;LogFileName=test_results.trx"'
                     }
                 }
             }
@@ -50,7 +50,7 @@ pipeline {
             steps {
                 script {
                     dir('src/NextHireApp.HttpApi.Host') {
-                        bat 'dotnet format --verify-no-changes'
+                        sh 'dotnet format --verify-no-changes'
                     }
                 }
             }
@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     dir('src/NextHireApp.HttpApi.Host') {
-                        bat 'dotnet publish -c Release -o staging_out'
+                        sh 'dotnet publish -c Release -o staging_out'
                     }
                 }
             }
@@ -69,7 +69,7 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 script {
-                    bat 'echo Running integration tests on staging environment...'
+                    sh 'echo "Running integration tests on staging environment..."'
                     // Add your integration test commands here
                 }
             }
@@ -82,7 +82,7 @@ pipeline {
             steps {
                 script {
                     dir('src/NextHireApp.HttpApi.Host') {
-                        bat 'dotnet publish -c Release -o production_out'
+                        sh 'dotnet publish -c Release -o production_out'
                     }
                 }
             }
