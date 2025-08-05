@@ -2,8 +2,6 @@
     agent any
 
     environment {
-        STAGING_SERVER = 'staging.example.com'
-        PROD_SERVER = 'prod.example.com'
         EMAIL = 'dominhquan15623@example.com'
         DOTNET_CLI_TELEMETRY_OPTOUT = '1'
     }
@@ -11,61 +9,55 @@
     stages {
         stage('Restore') {
             steps {
-                echo 'Restoring NuGet packages...'
-                sh 'dotnet restore'
+                dir('src/NextHireApp.HttpApi.Host') {
+                    bat 'dotnet restore'
+                }
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building the project...'
-                sh 'dotnet build --no-restore -c Release'
+                dir('src/NextHireApp.HttpApi.Host') {
+                    bat 'dotnet build --no-restore -c Release'
+                }
             }
         }
 
         stage('Unit Tests') {
             steps {
-                echo 'Running unit tests...'
-                sh 'dotnet test --no-build --logger "trx;LogFileName=test_results.trx" || exit 1'
+                dir('src') {
+                    bat 'dotnet test --no-build --logger "trx;LogFileName=test_results.trx" || exit 1'
+                }
             }
         }
 
         stage('Code Analysis') {
             steps {
-                echo 'Performing code analysis with dotnet format...'
-                sh 'dotnet format --verify-no-changes || exit 1'
-            }
-        }
-
-        stage('Security Scan') {
-            steps {
-                echo 'Running security scan...'
-                // Thay thế bằng thực tế nếu bạn dùng SonarQube hay tool khác
-                sh 'echo "Scanning for vulnerabilities..."'
+                dir('src/NextHireApp.HttpApi.Host') {
+                    bat 'dotnet format --verify-no-changes || exit 1'
+                }
             }
         }
 
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to Staging...'
-                // Thay đoạn này bằng lệnh publish/deploy thực tế
-                sh 'dotnet publish -c Release -o out'
+                dir('src/NextHireApp.HttpApi.Host') {
+                    bat 'dotnet publish -c Release -o out'
+                }
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging...'
-                // Nếu có tích hợp kiểm thử staging
-                sh 'echo "Integration tests..."'
+                bat 'echo Running integration tests...'
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to Production...'
-                // Thay đoạn này bằng lệnh deploy thực tế
-                sh 'dotnet publish -c Release -o out'
+                dir('src/NextHireApp.HttpApi.Host') {
+                    bat 'dotnet publish -c Release -o out'
+                }
             }
         }
     }
